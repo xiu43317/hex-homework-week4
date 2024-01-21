@@ -53,30 +53,6 @@ const app = createApp({
             }
 
         },
-        updateProduct() {
-            if (this.isNew) {
-                axios.post(`${url}/api/${path}/admin/product`, { data: this.tempProduct })
-                    .then((res) => {
-                        alert(res.data.message);
-                        this.getProducts();
-                        myModal.hide();
-                    })
-                    .catch((error) => {
-                        alert(error.response.data.message);
-                        myModal.hide();
-                    })
-            } else {
-                axios.put(`${url}/api/${path}/admin/product/${this.tempProduct.id}`, { data: this.tempProduct })
-                    .then((res) => {
-                        alert(res.data.message)
-                        this.getProducts();
-                        myModal.hide();
-                    }).catch((error) => {
-                        alert(error.response.data.message)
-                        myModal.hide();
-                    })
-            }
-        },
         deleteProduct() {
             axios.delete(`${url}/api/${path}/admin/product/${this.tempProduct.id}`)
                 .then((res) => {
@@ -91,21 +67,55 @@ const app = createApp({
         }
     },
     mounted() {
-        // myModal = new bootstrap.Modal(document.querySelector('#productModal'))
-        delModal = new bootstrap.Modal(document.querySelector('#delProductModal'))
         this.checkLogin();
     }
 
 })
 
-app.component('edit-product',{
+app.component('edit-product', {
     data() {
         return {
             
         }
     },
+    props: ['isNew', 'tempProduct',],
     methods: {
-        
+        updateProduct() {
+            if (this.isNew) {
+                axios.post(`${url}/api/${path}/admin/product`, { data: this.tempProduct })
+                    .then((res) => {
+                        alert(res.data.message);
+                        this.getProducts();
+                        this.hideModal();
+                    })
+                    .catch((error) => {
+                        alert(error.response.data.message);
+                        this.hideModal();
+                    })
+            } else {
+                axios.put(`${url}/api/${path}/admin/product/${this.tempProduct.id}`, { data: this.tempProduct })
+                    .then((res) => {
+                        alert(res.data.message)
+                        this.getProducts();
+                        this.hideModal();
+                    }).catch((error) => {
+                        alert(error.response.data.message)
+                        this.hideModal();
+                    })
+            }
+        },
+        getProducts() {
+            this.$emit('getProducts');
+        },
+        openModal() {
+            myModal.show();
+        },
+        hideModal() {
+            myModal.hide();
+        },
+    },
+    mounted() {  
+        myModal = new bootstrap.Modal(document.querySelector('#productModal'))
     },
     template:`#edit-product`,
 })
@@ -121,6 +131,9 @@ app.component('delete-product',{
         delProduct() {
             this.$emit('del-product',this.productId)
         }
+    },
+    mounted() {
+        delModal = new bootstrap.Modal(document.querySelector('#delProductModal'))
     },
     template:`#delete-product`,
 })
