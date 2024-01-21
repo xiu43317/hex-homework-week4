@@ -11,6 +11,7 @@ const app = createApp({
         return {
             products: [],
             isNew: true,
+            pagination: {},
             tempProduct: {
                 imagesUrl: [],
             }
@@ -26,11 +27,13 @@ const app = createApp({
                 location.href = './index.html';
             })
         },
-        getProducts() {
-            axios.get(`${url}/api/${path}/admin/products`)
+        getProducts(page=1) {
+            axios.get(`${url}/api/${path}/admin/products?page=${page}`)
                 .then((res) => {
                     //console.log(res.data.products);
                     this.products = res.data.products;
+                    this.pagination = res.data.pagination;
+
                 })
                 .catch((error) => {
                     console.dir(error)
@@ -141,6 +144,21 @@ app.component('delete-product',{
         delModal = new bootstrap.Modal(document.querySelector('#delProductModal'))
     },
     template:`#delete-product`,
+})
+
+app.component('pagination', {
+    data() {
+        return {
+    
+      }  
+    },
+    methods: {
+        emitPage(item) {
+            this.$emit('emit-page',item)
+      }  
+    },
+    props:['pages'],
+    template:`#pagination`
 })
 
 app.mount('#app')
