@@ -53,18 +53,6 @@ const app = createApp({
             }
 
         },
-        deleteProduct() {
-            axios.delete(`${url}/api/${path}/admin/product/${this.tempProduct.id}`)
-                .then((res) => {
-                    alert(res.data.message)
-                    this.getProducts();
-                    delModal.hide();
-                }).catch((error) => {
-                    alert(error.response.data.message)
-                    delModal.hide();
-                })
-
-        }
     },
     mounted() {
         this.checkLogin();
@@ -126,11 +114,28 @@ app.component('delete-product',{
             
         }
     },
-    props:['productId'],
+    props:['product'],
     methods: {
-        delProduct() {
-            this.$emit('del-product',this.productId)
-        }
+        deleteProduct() {
+            axios.delete(`${url}/api/${path}/admin/product/${this.product.id}`)
+                .then((res) => {
+                    alert(res.data.message)
+                    this.hideModal();
+                    this.getProducts();
+                }).catch((error) => {
+                    alert(error.response.data.message)
+                    this.hideModal();
+                })
+        },
+        getProducts() {
+            this.$emit('getProducts');
+        },
+        openModal() {
+            delModal.show();
+        },
+        hideModal() {
+            delModal.hide();
+        },
     },
     mounted() {
         delModal = new bootstrap.Modal(document.querySelector('#delProductModal'))

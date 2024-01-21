@@ -65,7 +65,7 @@
         <!-- openModal -->
         <edit-product :is-new="isNew" :temp-product="tempProduct" @get-products="getProducts"></edit-product>
         <!-- deleteModal -->
-        <delete-product :product-id="tempProduct.id" @del-product="deleteProduct"></delete-product>
+        <delete-product :product="tempProduct" @get-products="getProducts"></delete-product>
     </div>
     <!-- 編輯產品 -->
     <script type="text/x-template" id="edit-product">
@@ -189,7 +189,7 @@
                         <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
                   取消
                 </button>
-                        <button type="button" class="btn btn-danger" @click=" delProduct()">
+                        <button type="button" class="btn btn-danger" @click=" deleteProduct()">
                   確認刪除
                 </button>
                     </div>
