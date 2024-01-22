@@ -67,7 +67,7 @@ const app = createApp({
 app.component('edit-product', {
     data() {
         return {
-            
+           
         }
     },
     props: ['isNew', 'tempProduct',],
