@@ -6,6 +6,7 @@ const url = 'https://vue3-course-api.hexschool.io/v2'; // 請加入站點
 const path = 'rock'; // 請加入個人 API Path
 let myModal = '';
 let delModal = '';
+let fileInput;
 const app = createApp({
     data() {
         return {
@@ -108,9 +109,27 @@ app.component('edit-product', {
         hideModal() {
             myModal.hide();
         },
+        uploadFile() {
+            //console.dir(fileInput)
+            const file = fileInput.files[0]
+            //console.log(file)
+            const formData = new FormData()
+            formData.append('file-to-upload', file)
+            axios.post(`${url}/api/${path}/admin/upload`, formData)
+                .then((res) => {
+                    //console.log(res.data.imageUrl)
+                    this.tempProduct.imageUrl = res.data.imageUrl
+                }).catch((err) => {
+                    //console.dir(err)
+                    alert(err.response.data.message)
+            })
+
+        },
     },
     mounted() {  
-        myModal = new bootstrap.Modal(document.querySelector('#productModal'))
+        myModal = new bootstrap.Modal(document.querySelector('#productModal'));
+        fileInput = document.querySelector('#formFile');
+        fileInput.addEventListener('change', this.uploadFile);
     },
     template:`#edit-product`,
 })

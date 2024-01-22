@@ -89,8 +89,12 @@
                                         <h3 class="mb-3">主要圖片</h3>
                                         <label for="imageUrl" class="form-label">輸入圖片網址</label>
                                         <input type="text" class="form-control" placeholder="請輸入圖片連結" v-model="tempProduct.imageUrl">
-                                        <img class="img-fluid" :src="tempProduct.imageUrl">
                                     </div>
+                                    <div class="mb-3">
+                                        <label for="formFile" class="form-label">上傳檔案</label>
+                                        <input class="form-control" type="file" id="formFile">
+                                    </div>
+                                    <img class="img-fluid" :src="tempProduct.imageUrl">
                                 </div>
                                 <h3 class="mb-3">多圖新增</h3>
                                 <div v-if="Array.isArray(tempProduct.imagesUrl)">
@@ -98,8 +102,8 @@
                                     <div class="mb-3">
                                         <label for="imageUrl" class="form-label">輸入圖片網址</label>
                                         <input type="text" class="form-control" placeholder="請輸入圖片連結" v-model="tempProduct.imagesUrl[key]">
-                                        <img class="img-fluid" :src="tempProduct.imagesUrl[key]">
                                     </div>
+                                    <img class="img-fluid" :src="tempProduct.imagesUrl[key]">
                                     </template>
                                     <div v-if="!tempProduct.imagesUrl.length || tempProduct.imagesUrl[tempProduct.imagesUrl.length-1]">
                                         <button class="btn btn-outline-primary btn-sm d-block w-100" @click="tempProduct.imagesUrl.push('')">新增圖片</button>
