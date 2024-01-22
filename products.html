@@ -103,7 +103,11 @@
                                         <label for="imageUrl" class="form-label">輸入圖片網址</label>
                                         <input type="text" class="form-control" placeholder="請輸入圖片連結" v-model="tempProduct.imagesUrl[key]">
                                     </div>
-                                    <img class="img-fluid" :src="tempProduct.imagesUrl[key]">
+                                    <div class="mb-3">
+                                        <label for="formFile" class="form-label">上傳檔案</label>
+                                        <input class="form-control uploadImages" type="file" @change="uploadFiles(key)">
+                                        <img class="img-fluid" :src="tempProduct.imagesUrl[key]">
+                                    </div>                                   
                                     </template>
                                     <div v-if="!tempProduct.imagesUrl.length || tempProduct.imagesUrl[tempProduct.imagesUrl.length-1]">
                                         <button class="btn btn-outline-primary btn-sm d-block w-100" @click="tempProduct.imagesUrl.push('')">新增圖片</button>
@@ -165,7 +169,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                        <button type="button" class="btn btn-outline-secondary" @click="hideModal()">
                   取消
                 </button>
                         <button type="button" class="btn btn-primary" @click="updateProduct()">
@@ -192,7 +196,7 @@
                         <strong class="text-danger">{{product.title}}</strong> 商品(刪除後將無法恢復)。
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                        <button type="button" class="btn btn-outline-secondary" @click="hideModal()">
                   取消
                 </button>
                         <button type="button" class="btn btn-danger" @click=" deleteProduct()">

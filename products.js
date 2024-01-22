@@ -125,6 +125,20 @@ app.component('edit-product', {
             })
 
         },
+        uploadFiles(key) {
+            let multiImgs = document.querySelectorAll('.uploadImages')
+            //console.log(multiImgs[key].files)
+            const file = multiImgs[key].files[0]
+            const formData = new FormData()
+            formData.append('file-to-upload', file)
+            axios.post(`${url}/api/${path}/admin/upload`, formData)
+                .then((res) => {
+                    this.tempProduct.imagesUrl[key] = res.data.imageUrl
+                }).catch((err) => {
+                    //console.dir(err)
+                    alert(err.response.data.message)
+            })    
+        },
     },
     mounted() {  
         myModal = new bootstrap.Modal(document.querySelector('#productModal'));
