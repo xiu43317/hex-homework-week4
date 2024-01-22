@@ -86,30 +86,30 @@
                             <div class="col-sm-4">
                                 <div class="mb-2">
                                     <div class="mb-3">
+                                        <h3 class="mb-3">主要圖片</h3>
                                         <label for="imageUrl" class="form-label">輸入圖片網址</label>
                                         <input type="text" class="form-control" placeholder="請輸入圖片連結" v-model="tempProduct.imageUrl">
+                                        <img class="img-fluid" :src="tempProduct.imageUrl">
                                     </div>
-                                    <img class="img-fluid" :src="tempProduct.imageUrl" alt="">
                                 </div>
                                 <h3 class="mb-3">多圖新增</h3>
-                                <div v-if="tempProduct.imagesUrl.length">
+                                <div v-if="Array.isArray(tempProduct.imagesUrl)">
                                     <template v-for="(image,key) in tempProduct.imagesUrl" :key="key">
                                     <div class="mb-3">
                                         <label for="imageUrl" class="form-label">輸入圖片網址</label>
                                         <input type="text" class="form-control" placeholder="請輸入圖片連結" v-model="tempProduct.imagesUrl[key]">
+                                        <img class="img-fluid" :src="tempProduct.imagesUrl[key]">
                                     </div>
-                                    <img class="img-fluid" :src="image" alt="">
                                     </template>
-                                </div>
-                                <div v-if="!tempProduct.imagesUrl.length || tempProduct.imagesUrl[tempProduct.imagesUrl.length-1]">
-                                    <button class="btn btn-outline-primary btn-sm d-block w-100" @click="tempProduct.imagesUrl.push('')">
-                        新增圖片
-                      </button>
+                                    <div v-if="!tempProduct.imagesUrl.length || tempProduct.imagesUrl[tempProduct.imagesUrl.length-1]">
+                                        <button class="btn btn-outline-primary btn-sm d-block w-100" @click="tempProduct.imagesUrl.push('')">新增圖片</button>
+                                    </div>
+                                    <div v-else>
+                                        <button class="btn btn-outline-danger btn-sm d-block w-100" @click="tempProduct.imagesUrl.pop()">刪除圖片</button>
+                                    </div>                                    
                                 </div>
                                 <div v-else>
-                                    <button class="btn btn-outline-danger btn-sm d-block w-100" @click="tempProduct.imagesUrl.pop()">
-                        刪除圖片
-                      </button>
+                                    <button class="btn btn-outline-primary btn-sm d-block w-100" @click="createImages()">新增圖片</button>
                                 </div>
                             </div>
                             <div class="col-sm-8">
@@ -185,7 +185,7 @@
                     </div>
                     <div class="modal-body">
                         是否刪除
-                        <strong class="text-danger"></strong> 商品(刪除後將無法恢復)。
+                        <strong class="text-danger">{{product.title}}</strong> 商品(刪除後將無法恢復)。
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">

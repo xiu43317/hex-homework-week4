@@ -95,6 +95,10 @@ app.component('edit-product', {
                     })
             }
         },
+        createImages() {
+            this.tempProduct.imagesUrl = []
+            this.tempProduct.imagesUrl.push('')
+        },
         getProducts() {
             this.$emit('getProducts');
         },
